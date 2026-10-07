@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharath Paper Agency — Super Admin Workspace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let r of registrations) r.unregister();
+            });
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #faf8f5;
+            color: #111827;
+            -webkit-font-smoothing: antialiased;
+        }
+        .admin-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease-in-out;
+        }
+        .admin-tab {
+            transition: all 0.15s ease;
+            font-weight: 700;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+        }
+        .admin-tab.active {
+            color: #111827;
+            border-bottom-color: #111827;
+        }
+        .status-pill {
+            transition: all 0.15s ease;
+            border: 1px solid #e5e7eb;
+            background-color: #ffffff;
+            color: #4b5563;
+        }
+        .status-pill.active {
+            background-color: #111827;
+            color: #ffffff;
+            border-color: #111827;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pb-16">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gray-900 text-white flex items-center justify-center font-black text-lg shadow-sm">
+                    B
+                </div>
+                <div>
+                    <h1 class="text-sm font-extrabold tracking-tight text-gray-900 leading-none">BHARATH AGENCY</h1>
+                    <p id="admin-name" class="text-[10px] text-gray-500 font-bold mt-0.5">Super Admin Workspace (Badal & Bharath)</p>
+                </div>
+            </div>
+
+            <!-- Header Quick Actions & Integration Badges -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- System Health Badges -->
+                <span id="badge-persistence" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-green-50 text-green-800 border border-green-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Store Active
+                </span>
+                <span id="badge-sheets" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-blue-50 text-blue-800 border border-blue-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Google Sheets
+                </span>
+
+                <a id="btn-google-sheet" href="#" target="_blank" class="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs rounded-xl transition">
+                    📊 View Sheet
+                </a>
+
+                <button onclick="triggerWeeklyReport()" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs rounded-xl transition focus:outline-none">
+                    ✉️ Run Weekly Email
+                </button>
+
+                <button onclick="logout()" class="text-xs text-gray-500 hover:text-gray-900 font-bold px-2 py-1.5 transition">
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Tab Navigation Pills -->
+        <div class="bg-white border-t border-gray-100 px-4 sm:px-6">
+            <div class="max-w-7xl mx-auto flex gap-6 overflow-x-auto no-scrollbar">
+                <button onclick="switchTab('orders')" id="tab-orders" class="admin-tab active py-3 text-xs tracking-wider uppercase whitespace-nowrap flex items-center gap-2">
+                    <span>📦 Orders Board</span>
+                    <span id="pending-orders-badge" class="bg-amber-100 text-amber-900 px-1.5 py-0.5 rounded-full text-[9px] font-black">0</span>
+                </button>
+                <button onclick="switchTab('products')" id="tab-products" class="admin-tab py-3 text-xs tracking-wider uppercase whitespace-nowrap">
+                    🛍️ Products & Inventory
+                </button>
+                <button onclick="switchTab('shops')" id="tab-shops" class="admin-tab py-3 text-xs tracking-wider uppercase whitespace-nowrap">
+                    🏪 Shops & Credit Ledger
+                </button>
+                <button onclick="switchTab('workers')" id="tab-workers" class="admin-tab py-3 text-xs tracking-wider uppercase whitespace-nowrap">
+                    🚚 Delivery Team
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Admin Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+
+        <!-- Executive KPI Insight Tiles (Decibullz High-Contrast Style) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="admin-card p-5">
+                <span class="text-[10px] font-extrabold text-green-700 uppercase tracking-wider block mb-1">Delivered Sales</span>
+                <h3 id="insight-delivered" class="text-2xl font-black text-gray-900">₹0.00</h3>
+                <span class="text-[10px] text-gray-400 block mt-1">Confirmed settled revenue</span>
+            </div>
+            <div class="admin-card p-5 border-red-200 bg-red-50 bg-opacity-20">
+                <span class="text-[10px] font-extrabold text-red-600 uppercase tracking-wider block mb-1">Total Outstanding Ledger</span>
+                <h3 id="insight-outstanding" class="text-2xl font-black text-red-600">₹0.00</h3>
+                <span class="text-[10px] text-red-400 block mt-1">Credit balance to collect</span>
+            </div>
+            <div class="admin-card p-5">
+                <span class="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider block mb-1">Registered Outlets</span>
+                <h3 id="insight-shops" class="text-2xl font-black text-gray-900">0</h3>
+                <span class="text-[10px] text-gray-400 block mt-1">Active retail clients</span>
+            </div>
+            <div class="admin-card p-5 border-amber-200 bg-amber-50 bg-opacity-20">
+                <span class="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider block mb-1">Pending Approval</span>
+                <h3 id="insight-pending" class="text-2xl font-black text-amber-800">0</h3>
+                <span class="text-[10px] text-amber-600 block mt-1">Orders awaiting review</span>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- TAB 1: ORDERS BOARD -->
+        <!-- ========================================== -->
+        <section id="sec-orders" class="tab-content space-y-4">
+            <!-- Filter Bar -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <!-- Status Filter Pills -->
+                <div class="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar w-full sm:w-auto">
+                    <button onclick="filterOrders('all')" id="filter-all" class="status-pill active px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap">
+                        All Orders
+                    </button>
+                    <button onclick="filterOrders('placed')" id="filter-placed" class="status-pill px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap">
+                        Placed (Review)
+                    </button>
+                    <button onclick="filterOrders('confirmed')" id="filter-confirmed" class="status-pill px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap">
+                        Confirmed
+                    </button>
+                    <button onclick="filterOrders('ready')" id="filter-ready" class="status-pill px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap">
+                        Ready
+                    </button>
+                    <button onclick="filterOrders('shipping')" id="filter-shipping" class="status-pill px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap">
+                        Out for Delivery
+                    </button>
+                    <button onclick="filterOrders('delivered')" id="filter-delivered" class="status-pill px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap">
+                        Delivered
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <input type="text" id="order-search-input" oninput="renderOrders()" placeholder="Search shop name / ID..." class="bg-white border border-gray-200 rounded-xl px-3 py-1.5 text-xs text-gray-900 focus:outline-none focus:border-gray-900 w-full sm:w-64">
+                    <button onclick="loadData()" class="p-2 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 text-xs font-bold transition">
+                        🔄
+                    </button>
+                </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="admin-card overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-200 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
+                                <th class="p-4">Order ID & Date</th>
+                                <th class="p-4">Shop & Address</th>
+                                <th class="p-4">Total Amount</th>
+                                <th class="p-4">30% Advance</th>
+                                <th class="p-4">Assign Worker</th>
+                                <th class="p-4">Status & Alert</th>
+                                <th class="p-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-list" class="divide-y divide-gray-100 text-xs text-gray-700">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: PRODUCTS & INVENTORY -->
+        <!-- ========================================== -->
+        <section id="sec-products" class="tab-content hidden space-y-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-base font-extrabold text-gray-900">Wholesale Product Catalog</h2>
+                    <p class="text-xs text-gray-500">Manage packaging products, MOQ limits, unit pricing, and stock</p>
+                </div>
+                <button onclick="openProductModal()" class="bg-gray-900 hover:bg-black text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition shadow-xs">
+                    + Add New Product
+                </button>
+            </div>
+
+            <div class="admin-card overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-200 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
+                                <th class="p-4">Product</th>
+                                <th class="p-4">Category</th>
+                                <th class="p-4">Unit Price</th>
+                                <th class="p-4">Pack MOQ</th>
+                                <th class="p-4">In-Stock Count</th>
+                                <th class="p-4">Status</th>
+                                <th class="p-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-list" class="divide-y divide-gray-100 text-xs text-gray-700">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: SHOPS & CREDIT LEDGER -->
+        <!-- ========================================== -->
+        <section id="sec-shops" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Register New Shop Form -->
+                <div class="admin-card p-6 h-fit space-y-4">
+                    <h3 class="font-extrabold text-gray-900 text-sm uppercase tracking-wider">Register Outlet Client</h3>
+                    <form onsubmit="registerShop(event)" class="space-y-3 text-xs">
+                        <div>
+                            <label class="font-bold text-gray-500 uppercase tracking-widest text-[9px] block mb-1">Shop Outlet Name</label>
+                            <input type="text" id="shop-name" required placeholder="e.g. Sri Krishna Sweets" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-900 focus:outline-none focus:border-gray-900">
+                        </div>
+                        <div>
+                            <label class="font-bold text-gray-500 uppercase tracking-widest text-[9px] block mb-1">Delivery Address</label>
+                            <input type="text" id="shop-address" required placeholder="e.g. Station Road, Hyderabad" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-900 focus:outline-none focus:border-gray-900">
+                        </div>
+                        <div>
+                            <label class="font-bold text-gray-500 uppercase tracking-widest text-[9px] block mb-1">Owner Phone (WhatsApp)</label>
+                            <input type="text" id="shop-phone" required placeholder="e.g. 9876543210" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-900 focus:outline-none focus:border-gray-900">
+                        </div>
+                        <div>
+                            <label class="font-bold text-gray-500 uppercase tracking-widest text-[9px] block mb-1">Credit Limit (₹)</label>
+                            <input type="number" id="shop-credit" value="10000" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-900 focus:outline-none focus:border-gray-900">
+                        </div>
+                        <button type="submit" class="w-full bg-gray-900 hover:bg-black text-white font-extrabold py-3 rounded-xl text-xs transition shadow-xs uppercase tracking-wider">
+                            Register & Generate Magic Link
+                        </button>
+                    </form>
+
+                    <!-- Magic Link Share Overlay -->
+                    <div id="magic-link-box" class="hidden mt-4 bg-green-50 border border-green-200 p-4 rounded-xl text-xs space-y-2">
+                        <p class="font-black text-green-900">✅ Shop Registered Successfully!</p>
+                        <p class="text-green-800 text-[11px]">Send this passwordless login link to the shop owner on WhatsApp:</p>
+                        <textarea id="magic-link-url" readonly class="w-full p-2 border border-green-300 rounded-lg bg-white text-gray-700 font-mono text-[10px] resize-none focus:outline-none h-14"></textarea>
+                        <a id="wa-share-btn" target="_blank" href="#" class="block text-center bg-green-700 hover:bg-green-800 text-white font-black py-2.5 rounded-xl text-xs shadow-xs transition">
+                            💬 Send Welcome Link via WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Ledger List Table -->
+                <div class="admin-card p-6 lg:col-span-2 space-y-4">
+                    <h3 class="font-extrabold text-gray-900 text-sm uppercase tracking-wider">Shops & Outstanding Ledger</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-200 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
+                                    <th class="p-3">Shop Outlet</th>
+                                    <th class="p-3">Phone</th>
+                                    <th class="p-3 text-right">Owed Debt (₹)</th>
+                                    <th class="p-3 text-right">Credit Limit</th>
+                                    <th class="p-3 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="shops-list" class="divide-y divide-gray-100 text-xs text-gray-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: DELIVERY TEAM -->
+        <!-- ========================================== -->
+        <section id="sec-workers" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Worker Registration -->
+                <div class="admin-card p-6 h-fit space-y-4">
+                    <h3 class="font-extrabold text-gray-900 text-sm uppercase tracking-wider">Add Delivery Partner</h3>
+                    <form onsubmit="registerWorker(event)" class="space-y-3 text-xs">
+                        <div>
+                            <label class="font-bold text-gray-500 uppercase tracking-widest text-[9px] block mb-1">Full Name</label>
+                            <input type="text" id="worker-name" required placeholder="e.g. Ramesh Kumar" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-900 focus:outline-none focus:border-gray-900">
+                        </div>
+                        <div>
+                            <label class="font-bold text-gray-500 uppercase tracking-widest text-[9px] block mb-1">Phone Number</label>
+                            <input type="text" id="worker-phone" required placeholder="e.g. 9900887766" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-900 focus:outline-none focus:border-gray-900">
+                        </div>
+                        <div>
+                            <label class="font-bold text-gray-500 uppercase tracking-widest text-[9px] block mb-1">Password</label>
+                            <input type="password" id="worker-password" value="worker123" required class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-900 focus:outline-none focus:border-gray-900">
+                        </div>
+                        <button type="submit" class="w-full bg-gray-900 hover:bg-black text-white font-extrabold py-3 rounded-xl text-xs transition shadow-xs uppercase tracking-wider">
+                            Register Delivery Partner
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Workers List -->
+                <div class="admin-card p-6 lg:col-span-2 space-y-4">
+                    <h3 class="font-extrabold text-gray-900 text-sm uppercase tracking-wider">Delivery Fleet</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-200 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">
+                                    <th class="p-3">Partner Name</th>
+                                    <th class="p-3">Phone</th>
+                                    <th class="p-3">Role</th>
+                                    <th class="p-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="workers-list" class="divide-y divide-gray-100 text-xs text-gray-700">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================== -->
+    <!-- BADAL'S REVIEW & APPROVE DISCOUNT MODAL -->
+    <!-- ========================================== -->
+    <div id="review-order-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900 bg-opacity-40 backdrop-filter backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+                <div>
+                    <h3 class="text-sm font-extrabold text-gray-900 uppercase tracking-wider">Review & Approve Order</h3>
+                    <p id="review-order-id" class="text-[10px] text-gray-500 font-mono mt-0.5">Order ID: #...</p>
+                </div>
+                <button onclick="closeReviewModal()" class="text-gray-400 hover:text-gray-700 font-bold p-1">✕</button>
+            </div>
+
+            <!-- Shop & Bill Card -->
+            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 text-xs space-y-2">
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Shop Outlet:</span>
+                    <span id="review-shop-name" class="font-bold text-gray-900">...</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Original Gross Total:</span>
+                    <span id="review-orig-total" class="font-black text-gray-900">₹0.00</span>
+                </div>
+            </div>
+
+            <!-- Quick Discount Selector -->
+            <div class="space-y-2">
+                <label class="block text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">
+                    Badal Special Discount
+                </label>
+                <div class="grid grid-cols-4 gap-2">
+                    <button type="button" onclick="setDiscountPercent(0)" class="py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-xs font-bold transition">0%</button>
+                    <button type="button" onclick="setDiscountPercent(5)" class="py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-xs font-bold transition">5%</button>
+                    <button type="button" onclick="setDiscountPercent(10)" class="py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-xs font-bold transition">10%</button>
+                    <button type="button" onclick="setDiscountPercent(15)" class="py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg text-xs font-bold transition">15%</button>
+                </div>
+                <div class="flex items-center gap-2 mt-2">
+                    <span class="text-xs text-gray-500 font-bold">Custom ₹:</span>
+                    <input type="number" id="review-discount" value="0" step="10" oninput="recalcReviewBill()" class="flex-1 bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs font-black text-gray-900 focus:outline-none">
+                </div>
+            </div>
+
+            <!-- Advance Verification -->
+            <div class="space-y-1">
+                <label class="block text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">
+                    Verified Advance Collected (30%)
+                </label>
+                <input type="number" id="review-advance" value="0" step="10" oninput="recalcReviewBill()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs font-black text-gray-900 focus:outline-none">
+            </div>
+
+            <!-- Recalculated Live Totals -->
+            <div class="bg-green-50 p-4 rounded-xl border border-green-200 text-xs space-y-1.5">
+                <div class="flex justify-between">
+                    <span class="text-green-800">Final Bill (After Discount):</span>
+                    <span id="review-final-bill" class="font-black text-green-900 text-sm">₹0.00</span>
+                </div>
+                <div class="flex justify-between border-t border-green-200 pt-1 text-[11px]">
+                    <span class="text-green-700">Remaining Dues to Shop Ledger:</span>
+                    <span id="review-remaining-dues" class="font-extrabold text-green-800">₹0.00</span>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button type="button" onclick="closeReviewModal()" class="flex-1 border border-gray-200 rounded-xl py-2.5 text-xs text-gray-600 font-bold hover:bg-gray-50 transition">
+                    Cancel
+                </button>
+                <button type="button" onclick="confirmApproval()" class="flex-1 bg-gray-900 hover:bg-black text-white font-extrabold rounded-xl py-2.5 text-xs transition shadow-sm">
+                    Approve & Log Ledger
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ADD / EDIT PRODUCT MODAL -->
+    <!-- ========================================== -->
+    <div id="product-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900 bg-opacity-40 backdrop-filter backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4">
+            <h3 id="modal-title" class="text-sm font-extrabold text-gray-900 uppercase tracking-wider">Add Wholesale Product</h3>
+            <form onsubmit="saveProduct(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="edit-prod-id">
+                <div>
+                    <label class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Product Name</label>
+                    <input type="text" id="prod-name" required placeholder="e.g. 100ml Heavy Paper Tea Cups" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs text-gray-800 focus:outline-none">
+                </div>
+                <div>
+                    <label class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Category</label>
+                    <select id="prod-category" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs text-gray-800 focus:outline-none font-bold">
+                        <option value="cups">☕ Paper Cups</option>
+                        <option value="plates">🍽️ Paper Plates & Trays</option>
+                        <option value="spoons">🥄 Cutlery & Straws</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Description / Spec</label>
+                    <input type="text" id="prod-desc" placeholder="Food-grade leak-proof virgin board base" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs text-gray-800 focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Unit Price (₹)</label>
+                        <input type="number" step="0.01" id="prod-price" required placeholder="1.20" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs text-gray-800 focus:outline-none font-black">
+                    </div>
+                    <div>
+                        <label class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Pack MOQ</label>
+                        <input type="number" id="prod-moq" value="100" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs text-gray-800 focus:outline-none font-black">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Stock Quantity (Units)</label>
+                    <input type="number" id="prod-stock" value="10000" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs text-gray-800 focus:outline-none">
+                </div>
+                <div>
+                    <label class="text-[9px] font-bold text-gray-400 uppercase block mb-1">Image URL</label>
+                    <input type="text" id="prod-image" placeholder="https://images.unsplash.com/..." class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs text-gray-800 focus:outline-none">
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button type="button" onclick="closeProductModal()" class="flex-1 border border-gray-200 rounded-xl py-2.5 text-xs text-gray-600 font-bold hover:bg-gray-50 transition">Cancel</button>
+                    <button type="submit" class="flex-1 bg-gray-900 hover:bg-black text-white font-extrabold rounded-xl py-2.5 text-xs transition">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripting Logic -->
+    <script>
+        let products = [];
+        let orders = [];
+        let shops = [];
+        let workers = [];
+        let activeStatusFilter = 'all';
+        let reviewOrderId = null;
+
+        window.onload = async () => {
+            const token = localStorage.getItem('token');
+            const userStr = localStorage.getItem('user');
+
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const user = JSON.parse(userStr || '{}');
+                const adminNameElem = document.getElementById('admin-name');
+                if (adminNameElem && user.name) {
+                    adminNameElem.innerText = `${user.name} (Master Admin)`;
+                }
+            } catch (e) {}
+
+            await loadData();
+            await fetchSheetsInfo();
+        };
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.admin-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(sec => sec.classList.add('hidden'));
+
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            const targetSec = document.getElementById(`sec-${tabId}`);
+
+            if (targetTab) targetTab.classList.add('active');
+            if (targetSec) targetSec.classList.remove('hidden');
+        }
+
+        function filterOrders(status) {
+            activeStatusFilter = status;
+            document.querySelectorAll('.status-pill').forEach(pill => pill.classList.remove('active'));
+            const activePill = document.getElementById(`filter-${status}`);
+            if (activePill) activePill.classList.add('active');
+            renderOrders();
+        }
+
+        async function loadData() {
+            try {
+                const [pRes, oRes, sRes, wRes] = await Promise.all([
+                    fetch('/api/products', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }),
+                    fetch('/api/orders', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }),
+                    fetch('/api/shops', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }),
+                    fetch('/api/auth/users?role=worker', { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } })
+                ]);
+
+                if (pRes.ok) products = await pRes.json();
+                if (oRes.ok) orders = await oRes.json();
+                if (sRes.ok) shops = await sRes.json();
+                if (wRes.ok) workers = await wRes.json();
+            } catch (err) {
+                console.error('Load data error:', err);
+            }
+
+            renderOrders();
+            renderProducts();
+            renderShops();
+            renderWorkers();
+            calculateInsights();
+        }
+
+        async function fetchSheetsInfo() {
+            try {
+                const response = await fetch('/api/orders/sheets-info', {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.sheetId) {
+                        const linkBtn = document.getElementById('btn-google-sheet');
+                        linkBtn.href = `https://docs.google.com/spreadsheets/d/${data.sheetId}/edit`;
+                        linkBtn.classList.remove('hidden');
+                        document.getElementById('badge-sheets').classList.remove('hidden');
+                    }
+                }
+            } catch (err) {}
+        }
+
+        function calculateInsights() {
+            let deliveredSales = 0;
+            let outstanding = 0;
+            let pending = 0;
+
+            orders.forEach(o => {
+                const total = Number(o.total_amount);
+                const discount = Number(o.discount_amount || 0);
+                const finalBill = total - discount;
+
+                if (o.status === 'delivered') {
+                    deliveredSales += finalBill;
+                } else if (o.status === 'placed') {
+                    pending++;
+                }
+            });
+
+            shops.forEach(s => {
+                outstanding += Number(s.outstanding_balance || 0);
+            });
+
+            document.getElementById('insight-delivered').innerText = '₹' + deliveredSales.toFixed(2);
+            document.getElementById('insight-outstanding').innerText = '₹' + outstanding.toFixed(2);
+            document.getElementById('insight-shops').innerText = shops.length;
+            document.getElementById('insight-pending').innerText = pending;
+
+            const badge = document.getElementById('pending-orders-badge');
+            if (badge) badge.innerText = pending;
+        }
+
+        // --- ORDERS BOARD RENDER ---
+        function renderOrders() {
+            const container = document.getElementById('orders-list');
+            const search = (document.getElementById('order-search-input')?.value || '').toLowerCase();
+
+            let filtered = activeStatusFilter === 'all' 
+                ? orders 
+                : orders.filter(o => o.status === activeStatusFilter);
+
+            if (search) {
+                filtered = filtered.filter(o => 
+                    (o.shop_name && o.shop_name.toLowerCase().includes(search)) || 
+                    (o.id && o.id.toLowerCase().includes(search))
+                );
+            }
+
+            if (!filtered || filtered.length === 0) {
+                container.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-gray-400 font-bold">No orders found matching this filter.</td></tr>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(ord => {
+                const total = Number(ord.total_amount);
+                const discount = Number(ord.discount_amount || 0);
+                const advance = Number(ord.advance_amount || 0);
+                const finalBill = total - discount;
+                const phone = ord.client_phone || '';
+
+                const waMessage = encodeURIComponent(`Hi ${ord.shop_name}! Your Bharath Agency Order #${ord.id.substring(0,8)} is ${ord.status.toUpperCase()}. Total Bill: ₹${finalBill.toFixed(2)}. Thank you!`);
+                const waLink = `https://wa.me/91${phone}?text=${waMessage}`;
+
+                return `
+                    <tr class="hover:bg-gray-50 transition border-b border-gray-100">
+                        <td class="p-4">
+                            <span class="font-black text-gray-900 block">#${ord.id.substring(0,8)}</span>
+                            <span class="text-[10px] text-gray-400 font-semibold">${new Date(ord.created_at).toLocaleDateString()}</span>
+                        </td>
+                        <td class="p-4">
+                            <span class="font-extrabold text-gray-900 block">${ord.shop_name}</span>
+                            <span class="text-[10px] text-gray-500 truncate max-w-xs block">${ord.delivery_address || 'Hyderabad'}</span>
+                        </td>
+                        <td class="p-4 font-black text-gray-900">
+                            ₹${finalBill.toFixed(2)}
+                            ${discount > 0 ? `<span class="text-[9px] text-green-700 block font-bold">-₹${discount.toFixed(2)} off</span>` : ''}
+                        </td>
+                        <td class="p-4 font-bold text-green-700">
+                            ₹${advance.toFixed(2)}
+                        </td>
+                        <td class="p-4">
+                            <select onchange="assignWorker('${ord.id}', this.value)" class="bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-xs text-gray-800 font-bold focus:outline-none">
+                                <option value="">Select Delivery Partner</option>
+                                ${workers.map(w => `<option value="${w.id}" ${ord.worker_id === w.id ? 'selected' : ''}>${w.name}</option>`).join('')}
+                            </select>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center gap-1.5">
+                                <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider ${ord.status === 'placed' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}">
+                                    ${ord.status}
+                                </span>
+                                ${phone ? `
+                                    <a href="${waLink}" target="_blank" class="text-green-700 hover:text-green-900 text-xs font-bold" title="Send WhatsApp Update">
+                                        💬 SMS
+                                    </a>
+                                ` : ''}
+                            </div>
+                        </td>
+                        <td class="p-4 text-right space-x-1 whitespace-nowrap">
+                            ${ord.status === 'placed' ? `
+                                <button onclick="openReviewModal('${ord.id}')" class="px-3 py-1.5 bg-green-700 hover:bg-green-800 text-white font-extrabold text-[11px] rounded-lg transition shadow-xs">
+                                    Review & Approve
+                                </button>
+                            ` : ''}
+                            ${ord.status === 'confirmed' ? `
+                                <button onclick="updateOrderStatus('${ord.id}', 'ready')" class="px-2.5 py-1.5 bg-gray-900 hover:bg-black text-white font-bold text-[11px] rounded-lg transition">
+                                    Mark Ready
+                                </button>
+                            ` : ''}
+                            ${ord.status === 'ready' ? `
+                                <button onclick="updateOrderStatus('${ord.id}', 'shipping')" class="px-2.5 py-1.5 bg-gray-900 hover:bg-black text-white font-bold text-[11px] rounded-lg transition">
+                                    Dispatch (Out for Delivery)
+                                </button>
+                            ` : ''}
+                            ${ord.status === 'shipping' ? `
+                                <button onclick="updateOrderStatus('${ord.id}', 'delivered')" class="px-2.5 py-1.5 bg-green-700 hover:bg-green-800 text-white font-extrabold text-[11px] rounded-lg transition shadow-xs">
+                                    Confirm Delivered
+                                </button>
+                            ` : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // --- BADAL REVIEW & APPROVE MODAL ---
+        function openReviewModal(orderId) {
+            reviewOrderId = orderId;
+            const ord = orders.find(o => o.id === orderId);
+            if (!ord) return;
+
+            document.getElementById('review-order-id').innerText = `Order ID: #${ord.id.substring(0,8)}`;
+            document.getElementById('review-shop-name').innerText = ord.shop_name;
+            document.getElementById('review-orig-total').innerText = `₹${Number(ord.total_amount).toFixed(2)}`;
+            document.getElementById('review-discount').value = ord.discount_amount || 0;
+            document.getElementById('review-advance').value = ord.advance_amount || (Number(ord.total_amount) * 0.30);
+
+            recalcReviewBill();
+            document.getElementById('review-order-modal').classList.remove('hidden');
+        }
+
+        function closeReviewModal() {
+            document.getElementById('review-order-modal').classList.add('hidden');
+            reviewOrderId = null;
+        }
+
+        function setDiscountPercent(percent) {
+            const ord = orders.find(o => o.id === reviewOrderId);
+            if (!ord) return;
+            const discountVal = (Number(ord.total_amount) * (percent / 100)).toFixed(2);
+            document.getElementById('review-discount').value = discountVal;
+            recalcReviewBill();
+        }
+
+        function recalcReviewBill() {
+            const ord = orders.find(o => o.id === reviewOrderId);
+            if (!ord) return;
+
+            const total = Number(ord.total_amount);
+            const discount = parseFloat(document.getElementById('review-discount').value) || 0;
+            const advance = parseFloat(document.getElementById('review-advance').value) || 0;
+
+            const finalBill = Math.max(0, total - discount);
+            const remainingDues = Math.max(0, finalBill - advance);
+
+            document.getElementById('review-final-bill').innerText = `₹${finalBill.toFixed(2)}`;
+            document.getElementById('review-remaining-dues').innerText = `₹${remainingDues.toFixed(2)}`;
+        }
+
+        async function confirmApproval() {
+            const discountAmount = parseFloat(document.getElementById('review-discount').value) || 0;
+            const advanceAmount = parseFloat(document.getElementById('review-advance').value) || 0;
+
+            try {
+                const response = await fetch('/api/orders/approve', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        orderId: reviewOrderId,
+                        discountAmount,
+                        advanceAmount
+                    })
+                });
+
+                if (response.ok) {
+                    closeReviewModal();
+                    await loadData();
+                    alert('Order approved, discount applied, and ledger updated successfully!');
+                } else {
+                    const data = await response.json();
+                    alert(data.error || 'Failed to approve order');
+                }
+            } catch (err) {
+                alert('Connection error: ' + err.message);
+            }
+        }
+
+        async function assignWorker(orderId, workerId) {
+            if (!workerId) return;
+            try {
+                const response = await fetch('/api/orders/assign', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ orderId, workerId })
+                });
+                if (response.ok) {
+                    await loadData();
+                }
+            } catch (err) {}
+        }
+
+        async function updateOrderStatus(orderId, status) {
+            try {
+                const response = await fetch('/api/orders/status', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ orderId, status })
+                });
+                if (response.ok) {
+                    await loadData();
+                }
+            } catch (err) {}
+        }
+
+        // --- PRODUCTS CRUD ---
+        function renderProducts() {
+            const container = document.getElementById('products-list');
+            container.innerHTML = products.map(p => `
+                <tr class="hover:bg-gray-50 transition border-b border-gray-100">
+                    <td class="p-4 flex items-center gap-3">
+                        <img src="${p.image_url}" alt="${p.name}" class="w-10 h-10 rounded-lg object-cover border border-gray-200">
+                        <div>
+                            <span class="font-extrabold text-gray-900 block">${p.name}</span>
+                            <span class="text-[10px] text-gray-400 font-semibold line-clamp-1">${p.description || ''}</span>
+                        </div>
+                    </td>
+                    <td class="p-4 uppercase text-[10px] font-black text-gray-500">${p.category}</td>
+                    <td class="p-4 font-black text-gray-900">₹${Number(p.unit_price).toFixed(2)}</td>
+                    <td class="p-4 font-bold text-gray-600">${p.min_order_quantity} pcs</td>
+                    <td class="p-4 font-bold text-gray-600">${p.stock_quantity.toLocaleString()}</td>
+                    <td class="p-4">
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${p.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-500'}">
+                            ${p.is_active ? 'Active' : 'Archived'}
+                        </span>
+                    </td>
+                    <td class="p-4 text-right space-x-2">
+                        <button onclick="editProduct('${p.id}')" class="text-xs font-bold text-gray-900 hover:underline">Edit</button>
+                        <button onclick="archiveProduct('${p.id}')" class="text-xs font-bold text-red-600 hover:underline">Archive</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openProductModal() {
+            document.getElementById('edit-prod-id').value = '';
+            document.getElementById('prod-name').value = '';
+            document.getElementById('prod-desc').value = '';
+            document.getElementById('prod-price').value = '';
+            document.getElementById('prod-moq').value = '100';
+            document.getElementById('prod-stock').value = '10000';
+            document.getElementById('prod-category').value = 'cups';
+            document.getElementById('prod-image').value = '';
+            document.getElementById('modal-title').innerText = 'Add Wholesale Product';
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        function editProduct(id) {
+            const p = products.find(prod => prod.id === id);
+            if (!p) return;
+
+            document.getElementById('edit-prod-id').value = p.id;
+            document.getElementById('prod-name').value = p.name;
+            document.getElementById('prod-desc').value = p.description || '';
+            document.getElementById('prod-price').value = p.unit_price;
+            document.getElementById('prod-moq').value = p.min_order_quantity;
+            document.getElementById('prod-stock').value = p.stock_quantity;
+            document.getElementById('prod-category').value = p.category || 'cups';
+            document.getElementById('prod-image').value = p.image_url || '';
+            document.getElementById('modal-title').innerText = 'Edit Product';
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        async function saveProduct(event) {
+            event.preventDefault();
+            const id = document.getElementById('edit-prod-id').value;
+            const name = document.getElementById('prod-name').value.trim();
+            const description = document.getElementById('prod-desc').value.trim();
+            const unitPrice = parseFloat(document.getElementById('prod-price').value);
+            const stockQuantity = parseInt(document.getElementById('prod-stock').value);
+            const minOrderQuantity = parseInt(document.getElementById('prod-moq').value);
+            const category = document.getElementById('prod-category').value;
+            const imageUrl = document.getElementById('prod-image').value.trim();
+
+            const url = id ? `/api/products/${id}` : '/api/products';
+            const method = id ? 'PUT' : 'POST';
+
+            try {
+                const response = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ name, description, unitPrice, stockQuantity, minOrderQuantity, category, imageUrl })
+                });
+
+                if (response.ok) {
+                    closeProductModal();
+                    await loadData();
+                } else {
+                    const data = await response.json();
+                    alert(data.error || 'Failed to save product');
+                }
+            } catch (err) {
+                alert('Save error: ' + err.message);
+            }
+        }
+
+        async function archiveProduct(id) {
+            if (!confirm('Are you sure you want to archive this product?')) return;
+            try {
+                await fetch(`/api/products/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                });
+                await loadData();
+            } catch (err) {}
+        }
+
+        // --- SHOPS & LEDGER ---
+        function renderShops() {
+            const container = document.getElementById('shops-list');
+            container.innerHTML = shops.map(s => {
+                const debt = Number(s.outstanding_balance || 0);
+                const limit = Number(s.credit_limit || 10000);
+                const isHighDebt = debt > (limit * 0.7);
+
+                return `
+                    <tr class="hover:bg-gray-50 transition border-b border-gray-100">
+                        <td class="p-3">
+                            <span class="font-extrabold text-gray-900 block">${s.shop_name}</span>
+                            <span class="text-[10px] text-gray-400 block">${s.delivery_address || 'Hyderabad'}</span>
+                        </td>
+                        <td class="p-3 font-semibold text-gray-600">${s.phone}</td>
+                        <td class="p-3 text-right">
+                            <span class="font-black text-sm block ${isHighDebt ? 'text-red-600' : 'text-gray-900'}">
+                                ₹${debt.toFixed(2)}
+                            </span>
+                            ${isHighDebt ? `<span class="text-[9px] text-red-500 font-bold block uppercase">High Debt</span>` : ''}
+                        </td>
+                        <td class="p-3 text-right font-bold text-gray-600">₹${limit.toLocaleString()}</td>
+                        <td class="p-3 text-right">
+                            <button onclick="logManualPayment('${s.id}')" class="px-2.5 py-1 bg-gray-900 hover:bg-black text-white font-extrabold text-[10px] rounded-lg transition">
+                                💵 Log Payment
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function registerShop(event) {
+            event.preventDefault();
+            const name = document.getElementById('shop-name').value.trim();
+            const address = document.getElementById('shop-address').value.trim();
+            const phone = document.getElementById('shop-phone').value.trim();
+            const creditLimit = parseFloat(document.getElementById('shop-credit').value);
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ name, address, phone, role: 'client', creditLimit })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    await loadData();
+                    if (data.magicLink) {
+                        document.getElementById('magic-link-url').value = data.magicLink;
+                        const waMsg = encodeURIComponent(`Welcome to Bharath Paper Agency! Here is your exclusive passwordless B2B store access link: ${data.magicLink}`);
+                        document.getElementById('wa-share-btn').href = `https://wa.me/91${phone}?text=${waMsg}`;
+                        document.getElementById('magic-link-box').classList.remove('hidden');
+                    }
+                    alert('Shop outlet registered successfully!');
+                } else {
+                    alert(data.error || 'Failed to register shop');
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        async function logManualPayment(shopId) {
+            const amountStr = prompt('Enter payment amount received from shop (₹):');
+            if (!amountStr) return;
+            const amount = parseFloat(amountStr);
+            if (isNaN(amount) || amount <= 0) return alert('Invalid payment amount');
+
+            try {
+                const response = await fetch(`/api/shops/${shopId}/payment`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ amount, method: 'cash', notes: 'Logged by Admin' })
+                });
+
+                if (response.ok) {
+                    await loadData();
+                    alert(`Payment of ₹${amount.toFixed(2)} recorded and ledger balance updated!`);
+                } else {
+                    const data = await response.json();
+                    alert(data.error || 'Failed to record payment');
+                }
+            } catch (err) {
+                alert('Connection error: ' + err.message);
+            }
+        }
+
+        // --- WORKERS ---
+        function renderWorkers() {
+            const container = document.getElementById('workers-list');
+            container.innerHTML = workers.map(w => `
+                <tr class="hover:bg-gray-50 transition border-b border-gray-100">
+                    <td class="p-3 font-extrabold text-gray-900">${w.name}</td>
+                    <td class="p-3 text-gray-600 font-semibold">${w.phone}</td>
+                    <td class="p-3 uppercase text-[10px] font-black text-gray-500">${w.role}</td>
+                    <td class="p-3">
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase bg-green-100 text-green-800">Active</span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function registerWorker(event) {
+            event.preventDefault();
+            const name = document.getElementById('worker-name').value.trim();
+            const phone = document.getElementById('worker-phone').value.trim();
+            const password = document.getElementById('worker-password').value;
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ name, phone, password, role: 'worker' })
+                });
+
+                if (response.ok) {
+                    await loadData();
+                    document.getElementById('worker-name').value = '';
+                    document.getElementById('worker-phone').value = '';
+                    alert('Delivery partner registered successfully!');
+                } else {
+                    const data = await response.json();
+                    alert(data.error || 'Failed to register worker');
+                }
+            } catch (err) {
+                alert('Error: ' + err.message);
+            }
+        }
+
+        async function triggerWeeklyReport() {
+            try {
+                const response = await fetch('/api/orders/weekly-report', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                });
+                const data = await response.json();
+                alert(data.message || data.error);
+            } catch (err) {
+                alert('Report error: ' + err.message);
+            }
+        }
+    </script>
+</body>
+</html>

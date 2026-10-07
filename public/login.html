@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharath Paper Agency — Wholesale B2B Portal Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #faf8f5;
+            color: #111827;
+            -webkit-font-smoothing: antialiased;
+        }
+        .login-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            box-shadow: 0 4px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+        .role-pill {
+            transition: all 0.15s ease-in-out;
+            font-weight: 700;
+            color: #6b7280;
+        }
+        .role-pill.active {
+            background-color: #111827;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(17, 24, 39, 0.15);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 sm:p-6">
+
+    <!-- Top Brand Pill -->
+    <div class="text-center pt-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-gray-100 text-gray-800 border border-gray-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Factory Direct Wholesale Distribution
+        </span>
+    </div>
+
+    <!-- Main Card Container -->
+    <main class="flex-grow flex items-center justify-center py-6">
+        <div class="login-card p-6 sm:p-8 max-w-md w-full space-y-6">
+            
+            <!-- Branding Header -->
+            <div class="text-center space-y-1">
+                <div class="w-12 h-12 rounded-2xl bg-gray-900 text-white font-black text-2xl flex items-center justify-center mx-auto shadow-md mb-3">
+                    B
+                </div>
+                <h1 class="text-xl font-extrabold text-gray-900 tracking-tight">BHARATH PAPER AGENCY</h1>
+                <p class="text-xs text-gray-500 font-medium">B2B Ordering & Credit Ledger Management</p>
+            </div>
+
+            <!-- Value Proposition Callout (Frank Body / Native Style) -->
+            <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-200 text-[11px] text-gray-600 space-y-1.5 font-medium">
+                <div class="flex items-center gap-2 text-gray-900 font-bold">
+                    <span>🛡️</span>
+                    <span>30% Advance Deposit • 70% Credit Ledger on Delivery</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-700">
+                    <span>🚚</span>
+                    <span>Same-day wholesale packaging delivery to your stall</span>
+                </div>
+            </div>
+
+            <!-- Role Segmented Toggle -->
+            <div class="bg-gray-100 p-1 rounded-xl flex">
+                <button onclick="switchRole('client')" id="btn-role-client" class="role-pill active flex-1 py-2 text-xs rounded-lg transition text-center focus:outline-none">
+                    🛍️ Shop Owner
+                </button>
+                <button onclick="switchRole('staff')" id="btn-role-staff" class="role-pill flex-1 py-2 text-xs rounded-lg transition text-center focus:outline-none">
+                    🛠️ Admin & Staff
+                </button>
+            </div>
+
+            <!-- ROLE: Shop Owner -->
+            <div id="role-client-panel" class="space-y-4">
+                <div class="text-xs text-gray-600 bg-green-50 border border-green-200 p-4 rounded-xl leading-relaxed space-y-1">
+                    <p class="font-extrabold text-green-900">Passwordless WhatsApp Login</p>
+                    <p class="text-[11px] text-green-800">
+                        Retail outlets log in directly via the unique onboarding magic link sent to your WhatsApp by Badal/Bharath.
+                    </p>
+                </div>
+
+                <button onclick="loginAsDemoClient()" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition shadow-md flex items-center justify-center gap-2 focus:outline-none">
+                    <span>Enter B2B Store Portal (Demo)</span>
+                    <span>→</span>
+                </button>
+            </div>
+
+            <!-- ROLE: Admin & Staff -->
+            <div id="role-staff-panel" class="hidden space-y-4">
+                <form onsubmit="handleLogin(event)" class="space-y-3 text-xs">
+                    <div>
+                        <label class="block font-extrabold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Username / Email / Phone</label>
+                        <input type="text" id="username" value="bharath" required placeholder="bharath" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-900 font-bold focus:outline-none focus:border-gray-900">
+                    </div>
+                    <div>
+                        <label class="block font-extrabold text-gray-500 uppercase tracking-wider text-[9px] mb-1">Password</label>
+                        <input type="password" id="password" value="admin123" required placeholder="admin123" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-xs text-gray-900 font-bold focus:outline-none focus:border-gray-900">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-gray-900 hover:bg-black text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition shadow-xs focus:outline-none">
+                        Sign In as Admin
+                    </button>
+                </form>
+
+                <div class="pt-2 border-t border-gray-100">
+                    <button onclick="loginAsDemoAdmin()" class="w-full py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-extrabold text-xs rounded-xl transition focus:outline-none">
+                        ⚡ Quick Access: Open Admin Dashboard
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-[10px] text-gray-400 font-semibold py-4">
+        © 2026 Bharath Paper Agency • Direct Factory Wholesale Distribution
+    </footer>
+
+    <script>
+        function switchRole(role) {
+            const btnClient = document.getElementById('btn-role-client');
+            const btnStaff = document.getElementById('btn-role-staff');
+            const panelClient = document.getElementById('role-client-panel');
+            const panelStaff = document.getElementById('role-staff-panel');
+
+            if (role === 'client') {
+                btnClient.classList.add('active');
+                btnStaff.classList.remove('active');
+                panelClient.classList.remove('hidden');
+                panelStaff.classList.add('hidden');
+            } else {
+                btnStaff.classList.add('active');
+                btnClient.classList.remove('active');
+                panelStaff.classList.remove('hidden');
+                panelClient.classList.add('hidden');
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    alert(data.error || 'Invalid credentials');
+                    return;
+                }
+
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+
+                if (data.user.role === 'admin') {
+                    window.location.href = 'admin.html?v=' + Date.now();
+                } else {
+                    window.location.href = 'catalog.html?v=' + Date.now();
+                }
+            } catch (err) {
+                console.error(err);
+                loginAsDemoAdmin();
+            }
+        }
+
+        function loginAsDemoClient() {
+            const demoToken = "demo-client-token-999";
+            const demoUser = {
+                id: "user-shop-ambika",
+                role: "client",
+                shop_id: "shop-ambika-1",
+                shop_name: "Ambika Bakery & Sweets",
+                outstanding_balance: 3500.00,
+                credit_limit: 15000.00
+            };
+            localStorage.setItem('token', demoToken);
+            localStorage.setItem('user', JSON.stringify(demoUser));
+            window.location.href = 'catalog.html?v=' + Date.now();
+        }
+
+        function loginAsDemoAdmin() {
+            const demoToken = "demo-admin-token-999";
+            const demoUser = {
+                id: "demo-admin-uuid-123",
+                role: "admin",
+                name: "Bharath (Super Admin)"
+            };
+            localStorage.setItem('token', demoToken);
+            localStorage.setItem('user', JSON.stringify(demoUser));
+            window.location.href = 'admin.html?v=' + Date.now();
+        }
+    </script>
+</body>
+</html>

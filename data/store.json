@@ -1,0 +1,439 @@
+{
+  "products": [
+    {
+      "id": "prod-cups-100",
+      "name": "100ml Heavy Paper Tea Cups (100 pcs/pack)",
+      "description": "Heavy leak-proof virgin board base. Food grade, thermal insulated for boiling hot chai & filter coffee.",
+      "unit_price": 1.2,
+      "stock_quantity": 25000,
+      "min_order_quantity": 100,
+      "category": "cups",
+      "image_url": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&auto=format&fit=crop&q=80",
+      "is_active": true,
+      "created_at": "2026-10-02T19:22:15.330Z"
+    },
+    {
+      "id": "prod-cups-250",
+      "name": "250ml Ripple Wall Juice Cups (50 pcs/pack)",
+      "description": "Triple layer ripple wall for maximum grip and insulation. Perfect for cold shakes, juices, and specialty coffees.",
+      "unit_price": 2.4,
+      "stock_quantity": 18000,
+      "min_order_quantity": 100,
+      "category": "cups",
+      "image_url": "https://images.unsplash.com/photo-1618335829737-2228915674e0?w=500&auto=format&fit=crop&q=80",
+      "is_active": true,
+      "created_at": "2026-10-02T19:22:15.331Z"
+    },
+    {
+      "id": "prod-cups-65",
+      "name": "65ml Espresso & Cutting Chai Cups (100 pcs/pack)",
+      "description": "Traditional roadside stall cutting chai portion cup. Rigid rolled rim prevents bending and spills.",
+      "unit_price": 0.85,
+      "stock_quantity": 40000,
+      "min_order_quantity": 200,
+      "category": "cups",
+      "image_url": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&auto=format&fit=crop&q=80",
+      "is_active": true,
+      "created_at": "2026-10-02T19:22:15.331Z"
+    },
+    {
+      "id": "prod-plates-10",
+      "name": "10-inch Rigid Buffet Dinner Plates (50 pcs/pack)",
+      "description": "Heavyweight grease-proof catering plate. Withstands heavy meals, gravies, and rice without sagging.",
+      "unit_price": 3.8,
+      "stock_quantity": 12000,
+      "min_order_quantity": 100,
+      "category": "plates",
+      "image_url": "https://images.unsplash.com/photo-1594911774802-8822a707caff?w=500&auto=format&fit=crop&q=80",
+      "is_active": true,
+      "created_at": "2026-10-02T19:22:15.331Z"
+    },
+    {
+      "id": "prod-plates-7",
+      "name": "7-inch Snack & Chaat Paper Plates (100 pcs/pack)",
+      "description": "Square base with raised raised lip. Biodegradable and perfect for bakeries, snacks, and chaat stalls.",
+      "unit_price": 1.5,
+      "stock_quantity": 20000,
+      "min_order_quantity": 100,
+      "category": "plates",
+      "image_url": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=500&auto=format&fit=crop&q=80",
+      "is_active": true,
+      "created_at": "2026-10-02T19:22:15.331Z"
+    },
+    {
+      "id": "prod-plates-meal",
+      "name": "5-Compartment Heavy Thali Meal Trays (50 pcs/pack)",
+      "description": "Sturdy bagasse sugarcane pulp thali tray with deep section dividers. Ideal for mess, hotels, and event buffets.",
+      "unit_price": 6.5,
+      "stock_quantity": 8000,
+      "min_order_quantity": 50,
+      "category": "plates",
+      "image_url": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
+      "is_active": true,
+      "created_at": "2026-10-02T19:22:15.331Z"
+    },
+    {
+      "id": "prod-spoons-wooden",
+      "name": "Eco Birchwood Dessert Spoons (100 pcs/pack)",
+      "description": "100% natural smooth-polished birchwood cutlery. Chemical-free, splinter-free, heat-resistant and biodegradable.",
+      "unit_price": 0.95,
+      "stock_quantity": 30000,
+      "min_order_quantity": 100,
+      "category": "spoons",
+      "image_url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=500&auto=format&fit=crop&q=80",
+      "is_active": true,
+      "created_at": "2026-10-02T19:22:15.331Z"
+    },
+    {
+      "id": "prod-spoons-soup",
+      "name": "Cornstarch Biodegradable Soup Spoons (100 pcs/pack)",
+      "description": "Heavy-gauge CPLA cornstarch formulation. Strong deep bowl suitable for piping hot soups, curries, and desserts.",
+      "unit_price": 1.4,
+      "stock_quantity": 15000,
+      "min_order_quantity": 100,
+      "category": "spoons",
+      "image_url": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&auto=format&fit=crop&q=80",
+      "is_active": true,
+      "created_at": "2026-10-02T19:22:15.331Z"
+    },
+    {
+      "id": "prod-straws-paper",
+      "name": "Individually Wrapped Paper Straws (250 pcs/box)",
+      "description": "4-ply thick craft paper construction. Remains rigid in liquid for over 4 hours. Hygenic individual food-grade wrapping.",
+      "unit_price": 0.6,
+      "stock_quantity": 50000,
+      "min_order_quantity": 250,
+      "category": "spoons",
+      "image_url": "https://images.unsplash.com/photo-1577937927133-66ef06acdf18?w=500&auto=format&fit=crop&q=80",
+      "is_active": true,
+      "created_at": "2026-10-02T19:22:15.331Z"
+    }
+  ],
+  "shops": [
+    {
+      "id": "shop-ambika-1",
+      "user_id": "user-shop-ambika",
+      "shop_name": "Ambika Bakery & Sweets",
+      "delivery_address": "Shop #14, Main Bazaar, Old Town, Hyderabad",
+      "phone": "9876543210",
+      "credit_limit": 15000,
+      "outstanding_balance": 4762,
+      "created_at": "2026-09-02T19:22:15.331Z"
+    },
+    {
+      "id": "shop-krishna-2",
+      "user_id": "user-shop-krishna",
+      "shop_name": "Sri Krishna Tea & Tiffins",
+      "delivery_address": "Opposite RTC Bus Stand, Station Road, Secunderabad",
+      "phone": "9988776655",
+      "credit_limit": 10000,
+      "outstanding_balance": 0,
+      "created_at": "2026-09-12T19:22:15.331Z"
+    },
+    {
+      "id": "shop-quality-3",
+      "user_id": "user-shop-quality",
+      "shop_name": "Quality Catering & Fast Food",
+      "delivery_address": "Plot #42, Industrial Area, Ring Road, Hyderabad",
+      "phone": "9123456789",
+      "credit_limit": 25000,
+      "outstanding_balance": 5800,
+      "created_at": "2026-09-17T19:22:15.331Z"
+    }
+  ],
+  "workers": [
+    {
+      "id": "worker-ramesh",
+      "name": "Ramesh Kumar",
+      "phone": "9900887766",
+      "role": "worker",
+      "status": "active"
+    },
+    {
+      "id": "worker-suresh",
+      "name": "Suresh Verma",
+      "phone": "9811223344",
+      "role": "worker",
+      "status": "active"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-9801",
+      "shop_id": "shop-ambika-1",
+      "shop_name": "Ambika Bakery & Sweets",
+      "delivery_address": "Shop #14, Main Bazaar, Old Town, Hyderabad",
+      "client_phone": "9876543210",
+      "total_amount": 855,
+      "advance_amount": 256.5,
+      "discount_amount": 0,
+      "status": "placed",
+      "payment_status": "partially_paid",
+      "worker_id": null,
+      "worker_name": null,
+      "quick_approve_token": "tok-muv2oqvl",
+      "created_at": "2026-10-05T09:54:05.457Z",
+      "items": [
+        {
+          "productId": "prod-plates-10",
+          "name": "10-inch Rigid Buffet Dinner Plates (50 pcs/pack)",
+          "quantity": 100,
+          "unitPrice": 3.8,
+          "itemTotal": 380
+        },
+        {
+          "productId": "prod-plates-7",
+          "name": "7-inch Snack & Chaat Paper Plates (100 pcs/pack)",
+          "quantity": 100,
+          "unitPrice": 1.5,
+          "itemTotal": 150
+        },
+        {
+          "productId": "prod-plates-meal",
+          "name": "5-Compartment Heavy Thali Meal Trays (50 pcs/pack)",
+          "quantity": 50,
+          "unitPrice": 6.5,
+          "itemTotal": 325
+        }
+      ]
+    },
+    {
+      "id": "ord-8212",
+      "shop_id": "shop-ambika-1",
+      "shop_name": "Ambika Bakery & Sweets",
+      "delivery_address": "Shop #14, Main Bazaar, Old Town, Hyderabad",
+      "client_phone": "9876543210",
+      "total_amount": 140,
+      "advance_amount": 42,
+      "discount_amount": 0,
+      "status": "placed",
+      "payment_status": "partially_paid",
+      "worker_id": null,
+      "worker_name": null,
+      "quick_approve_token": "tok-muv2lrt4",
+      "created_at": "2026-10-05T09:51:46.696Z",
+      "items": [
+        {
+          "productId": "prod-spoons-soup",
+          "name": "Cornstarch Biodegradable Soup Spoons (100 pcs/pack)",
+          "quantity": 100,
+          "unitPrice": 1.4,
+          "itemTotal": 140
+        }
+      ]
+    },
+    {
+      "id": "ord-8390",
+      "shop_id": "shop-ambika-1",
+      "shop_name": "Ambika Bakery & Sweets",
+      "delivery_address": "Shop #14, Main Bazaar, Old Town, Hyderabad",
+      "client_phone": "9876543210",
+      "total_amount": 1260,
+      "advance_amount": 378,
+      "discount_amount": 0,
+      "status": "shipping",
+      "payment_status": "partially_paid",
+      "worker_id": null,
+      "worker_name": null,
+      "quick_approve_token": "tok-muv231fw",
+      "created_at": "2026-10-05T09:37:12.716Z",
+      "items": [
+        {
+          "productId": "prod-cups-100",
+          "name": "100ml Heavy Paper Tea Cups (100 pcs/pack)",
+          "quantity": 200,
+          "unitPrice": 1.2,
+          "itemTotal": 240
+        },
+        {
+          "productId": "prod-cups-250",
+          "name": "250ml Ripple Wall Juice Cups (50 pcs/pack)",
+          "quantity": 300,
+          "unitPrice": 2.4,
+          "itemTotal": 720
+        },
+        {
+          "productId": "prod-plates-7",
+          "name": "7-inch Snack & Chaat Paper Plates (100 pcs/pack)",
+          "quantity": 200,
+          "unitPrice": 1.5,
+          "itemTotal": 300
+        }
+      ]
+    },
+    {
+      "id": "ord-6754",
+      "shop_id": "shop-ambika-1",
+      "shop_name": "Ambika Bakery & Sweets",
+      "delivery_address": "Shop #14, Main Bazaar, Old Town, Hyderabad",
+      "client_phone": "9876543210",
+      "total_amount": 240,
+      "advance_amount": 72,
+      "discount_amount": 0,
+      "status": "shipping",
+      "payment_status": "partially_paid",
+      "worker_id": null,
+      "worker_name": null,
+      "quick_approve_token": "tok-muruhsxg",
+      "created_at": "2026-10-03T03:41:26.068Z",
+      "items": [
+        {
+          "productId": "prod-cups-100",
+          "name": "100ml Heavy Paper Tea Cups (100 pcs/pack)",
+          "quantity": 200,
+          "unitPrice": 1.2,
+          "itemTotal": 240
+        }
+      ]
+    },
+    {
+      "id": "ord-2211",
+      "shop_id": "shop-ambika-1",
+      "shop_name": "Ambika Bakery & Sweets",
+      "delivery_address": "Shop #14, Main Bazaar, Old Town, Hyderabad",
+      "client_phone": "9876543210",
+      "total_amount": 1960,
+      "advance_amount": 588,
+      "discount_amount": 160,
+      "status": "delivered",
+      "payment_status": "paid",
+      "worker_id": "worker-ramesh",
+      "worker_name": "Ramesh Kumar",
+      "quick_approve_token": "tok-mured6gx",
+      "created_at": "2026-10-02T20:09:56.481Z",
+      "items": [
+        {
+          "productId": "prod-cups-100",
+          "name": "100ml Heavy Paper Tea Cups (100 pcs/pack)",
+          "quantity": 1000,
+          "unitPrice": 1.2,
+          "itemTotal": 1200
+        },
+        {
+          "productId": "prod-plates-10",
+          "name": "10-inch Rigid Buffet Dinner Plates (50 pcs/pack)",
+          "quantity": 200,
+          "unitPrice": 3.8,
+          "itemTotal": 760
+        }
+      ]
+    },
+    {
+      "id": "ord-8241",
+      "shop_id": "shop-ambika-1",
+      "shop_name": "Ambika Bakery & Sweets",
+      "delivery_address": "Shop #14, Main Bazaar, Old Town, Hyderabad",
+      "client_phone": "9876543210",
+      "total_amount": 3200,
+      "advance_amount": 960,
+      "discount_amount": 0,
+      "status": "placed",
+      "payment_status": "partially_paid",
+      "worker_id": null,
+      "worker_name": null,
+      "quick_approve_token": "tok-demo-8241",
+      "created_at": "2026-10-02T17:22:15.331Z",
+      "items": [
+        {
+          "productId": "prod-cups-100",
+          "name": "100ml Heavy Paper Tea Cups (100 pcs/pack)",
+          "quantity": 2000,
+          "unitPrice": 1.2,
+          "itemTotal": 2400
+        },
+        {
+          "productId": "prod-plates-7",
+          "name": "7-inch Snack & Chaat Paper Plates (100 pcs/pack)",
+          "quantity": 533,
+          "unitPrice": 1.5,
+          "itemTotal": 800
+        }
+      ]
+    },
+    {
+      "id": "ord-5122",
+      "shop_id": "shop-quality-3",
+      "shop_name": "Quality Catering & Fast Food",
+      "delivery_address": "Plot #42, Industrial Area, Ring Road, Hyderabad",
+      "client_phone": "9123456789",
+      "total_amount": 7600,
+      "advance_amount": 2280,
+      "discount_amount": 500,
+      "status": "shipping",
+      "payment_status": "partially_paid",
+      "worker_id": "worker-ramesh",
+      "worker_name": "Ramesh Kumar",
+      "quick_approve_token": "tok-demo-5122",
+      "created_at": "2026-10-02T01:22:15.331Z",
+      "items": [
+        {
+          "productId": "prod-plates-10",
+          "name": "10-inch Rigid Buffet Dinner Plates (50 pcs/pack)",
+          "quantity": 1000,
+          "unitPrice": 3.8,
+          "itemTotal": 3800
+        },
+        {
+          "productId": "prod-plates-meal",
+          "name": "5-Compartment Heavy Thali Meal Trays (50 pcs/pack)",
+          "quantity": 584,
+          "unitPrice": 6.5,
+          "itemTotal": 3800
+        }
+      ]
+    },
+    {
+      "id": "ord-3109",
+      "shop_id": "shop-ambika-1",
+      "shop_name": "Ambika Bakery & Sweets",
+      "delivery_address": "Shop #14, Main Bazaar, Old Town, Hyderabad",
+      "client_phone": "9876543210",
+      "total_amount": 4500,
+      "advance_amount": 1350,
+      "discount_amount": 300,
+      "status": "delivered",
+      "payment_status": "paid",
+      "worker_id": "worker-suresh",
+      "worker_name": "Suresh Verma",
+      "quick_approve_token": "tok-demo-3109",
+      "created_at": "2026-09-27T19:22:15.331Z",
+      "items": [
+        {
+          "productId": "prod-cups-250",
+          "name": "250ml Ripple Wall Juice Cups (50 pcs/pack)",
+          "quantity": 1500,
+          "unitPrice": 2.4,
+          "itemTotal": 3600
+        },
+        {
+          "productId": "prod-spoons-wooden",
+          "name": "Eco Birchwood Dessert Spoons (100 pcs/pack)",
+          "quantity": 947,
+          "unitPrice": 0.95,
+          "itemTotal": 900
+        }
+      ]
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay-101",
+      "shop_id": "shop-ambika-1",
+      "order_id": "ord-3109",
+      "amount": 2850,
+      "payment_method": "cash",
+      "status": "completed",
+      "notes": "Collected at delivery by Suresh",
+      "created_at": "2026-09-27T19:22:15.331Z"
+    },
+    {
+      "id": "pay-mured6i5",
+      "shop_id": "shop-ambika-1",
+      "amount": 1000,
+      "payment_method": "cash",
+      "status": "completed",
+      "notes": "Collected at counter",
+      "created_at": "2026-10-02T20:09:56.525Z"
+    }
+  ]
+}

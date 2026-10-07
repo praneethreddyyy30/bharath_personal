@@ -1,0 +1,17 @@
+{
+  "short_name": "Paper Agency",
+  "name": "Bharath Paper Products Agency",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/9789/9789079.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/catalog.html",
+  "background_color": "#3182ce",
+  "theme_color": "#3182ce",
+  "display": "standalone",
+  "orientation": "portrait"
+}
