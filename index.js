@@ -83,8 +83,12 @@ app.get('/', (req, res) => {
     res.redirect('/login.html');
 });
 
-app.listen(PORT, () => {
-    console.log(`=================================================`);
-    console.log(`🚀 Bharath Paper Agency server running on port ${PORT}`);
-    console.log(`=================================================`);
-});
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`=================================================`);
+        console.log(`🚀 Bharath Paper Agency server running on port ${PORT}`);
+        console.log(`=================================================`);
+    });
+}
+
+module.exports = app;
